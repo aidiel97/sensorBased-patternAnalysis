@@ -5,10 +5,12 @@
 import warnings
 warnings.simplefilter(action='ignore')
 import bin.interfaces.cli.main as cli
-from bin.modules.domain import *
+import bin.modules.spm4Detection.domain as spm4d
+import bin.modules.sensorBasedPattern.domain as sbp
 
 if __name__ == "__main__":
   listMenu = [
-    ('Sensor Based Causality Analysis', sensorBasedCausalityAnalysis)
+    ('Sensor Based Causality Analysis', sbp.main),
+    ('Sequence Pattern Mining for Detection', spm4d.main),
   ]
   cli.menu(listMenu)
