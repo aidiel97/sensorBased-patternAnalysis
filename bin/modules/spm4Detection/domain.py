@@ -32,6 +32,7 @@ def main():
     )
     if(existSrcAddr == '' or existSrcAddr == row['SrcAddr']):
       totSeqPatternTime += row['Diff']
+      #subSeq is created from collection of NetT which in same time Window (1hrs)
       if(totSeqPatternTime < 3600):
         element.append(netT)
       else:
@@ -41,8 +42,8 @@ def main():
     else:
       seq.append(subSeq)
       subSeq = []
-      print(seq)
-      break
+      # print(seq)
+      # break
     
     existSrcAddr = row['SrcAddr']
 
