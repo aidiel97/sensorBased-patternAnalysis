@@ -16,8 +16,10 @@ def ipToInteger(ip):
     return np.nan #return NaN when IP Address is not valid
   
 def timeToUnix(startTime):
-  date_format = datetime.strptime(startTime, '%Y-%m-%d %H:%M:%S')
-  unix_time = datetime.timestamp(date_format)
+  # date_format = datetime.strptime(startTime, '%Y-%m-%d %H:%M:%S')
+  # unix_time = datetime.timestamp(date_format)
+  t = pd.Timestamp(startTime)
+  unix_time = time.mktime(t.timetuple())
   return unix_time
 
 def labelProcessing(label):

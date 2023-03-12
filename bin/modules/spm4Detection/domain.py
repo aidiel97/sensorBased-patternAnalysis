@@ -10,9 +10,9 @@ def main():
 
   # datasetName, stringDatasetName, selected = datasetMenu.getData()
 
-  datasetName = ncc2
-  stringDatasetName = 'ncc2'
-  selected = 'scenario1'
+  datasetName = ctu
+  stringDatasetName = 'ctu'
+  selected = 'scenario11'
 
   df = loader.binetflow(datasetName, selected, stringDatasetName)
   df = df.sort_values(by=['SrcAddr', 'StartTime'])
@@ -25,10 +25,12 @@ def main():
   totSeqPatternTime = 0
   existSrcAddr = ''
   netT = ()
+  #sequence pattern mining
   for index, row in df.iterrows():
     netT = (
-      row['SrcAddr'],row['Sport'],row['DstAddr'],row['Dport'],
-      row['State'],row['TotPkts'],row['TotBytes'],row['SrcBytes'],row['Diff']
+      row['SrcAddr'],row['DstAddr'],
+      # row['Sport'],row['Dport'],
+      # row['State'],row['TotPkts'],row['TotBytes'],row['SrcBytes'],row['Diff']
     )
     if(existSrcAddr == '' or existSrcAddr == row['SrcAddr']):
       totSeqPatternTime += row['Diff']
@@ -41,10 +43,20 @@ def main():
         totSeqPatternTime = 0
     else:
       seq.append(subSeq)
-      subSeq = []
-      # print(seq)
-      # break
+      subSeq = [element]
     
     existSrcAddr = row['SrcAddr']
 
+  supportCount = {}
+  #frequent analysis
+  for subSeq in seq:
+    for element in subSeq:
+      if(tuple(element) not in supportCount):
+        supportCount[tuple(element)] = 1
+      else:
+        supportCount[tuple(element)] += 1
+  
+  sortedBySupport = sorted(supportCount.items(), key=lambda x:x[1], reverse=True)
+  # print(supportCount)
+  print(sortedBySupport[:5])
   watcherEnd(ctx, start)
